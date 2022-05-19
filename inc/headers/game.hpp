@@ -11,7 +11,7 @@ public:
     game();
     ~game();
 
-    void render(sf::RenderTarget& target);
+    void render(sf::RenderWindow& window);
 
 private:
     assetManager<sf::Texture> m_textureManager;

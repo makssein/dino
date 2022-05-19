@@ -1,9 +1,7 @@
 #include <app.hpp>
-#include <game.hpp>
 
 app::app(){
     initWindow();
-    startGame();
 }
 
 app::~app(){}
@@ -38,9 +36,7 @@ void app::update() {
 
 void app::render() {
     m_window.clear();
+    m_game.render(m_window);
     m_window.display();
 }
 
-void app::startGame() {
-    game();
-}

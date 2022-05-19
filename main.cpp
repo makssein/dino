@@ -190,6 +190,8 @@ int main(){
 
     while(app.isRunning()){
         app.update();
+        app.render();
     }
+
     return 0;
 }

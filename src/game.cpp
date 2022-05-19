@@ -1,17 +1,19 @@
 #include <game.hpp>
+#include <iostream>
 
 game::game(){
     initAsset();
     initDino();
     initTrees();
-   // render();
+    initSprites();
 }
 
 game::~game(){}
 
-void game::render(sf::RenderTarget& target) {
-    for(const auto& sprites : m_sprites)
-        target.draw(sprites.second);
+void game::render(sf::RenderWindow& window) {
+    for(const auto& sprites : m_sprites) {
+        window.draw(sprites.second);
+    }
 }
 
 void game::initDino() {
