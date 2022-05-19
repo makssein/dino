@@ -1,8 +1,24 @@
-//
-// Created by Максим Сеин on 19.05.2022.
-//
+#pragma once
 
-#ifndef MAIN_CPP_APP_H
-#define MAIN_CPP_APP_H
+#include <myHeaders.h>
+#include <assetManager.hpp>
 
-#endif //MAIN_CPP_APP_H
+class app{
+public:
+    app();
+    ~app();
+
+    bool isRunning();
+    void update();
+    void render();
+
+private:
+    sf::RenderWindow m_window;
+    sf::Event m_event;
+
+    assetManager<sf::Texture> m_textureManager;
+
+    void initWindow();
+    void handleEvents();
+    void startGame();
+};

@@ -1,8 +1,26 @@
-//
-// Created by Максим Сеин on 19.05.2022.
-//
+#pragma once
+#include <myHeaders.h>
+#include <assetManager.hpp>
 
-#ifndef MAIN_CPP_GAME_H
-#define MAIN_CPP_GAME_H
+#include <dino.hpp>
+#include <tree.hpp>
 
-#endif //MAIN_CPP_GAME_H
+
+class game{
+public:
+    game();
+    ~game();
+
+    void render(sf::RenderTarget& target);
+
+private:
+    assetManager<sf::Texture> m_textureManager;
+    std::unordered_map<std::string, sf::Sprite> m_sprites;
+
+    void initAsset();
+    void initDino();
+    void initTrees();
+    void initSprites();
+
+    std::vector<tree> m_trees;
+};

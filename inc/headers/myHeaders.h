@@ -1,8 +1,7 @@
-//
-// Created by Максим Сеин on 19.05.2022.
-//
+#pragma once
 
-#ifndef MAIN_CPP_MYHEADERS_H
-#define MAIN_CPP_MYHEADERS_H
+#include <SFML/Graphics.hpp>
+#include <math.h>
 
-#endif //MAIN_CPP_MYHEADERS_H
+const int WINDOW_WIDTH = 2880;
+const int WINDOW_HEIGHT = 1620;
