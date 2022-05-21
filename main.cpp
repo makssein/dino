@@ -187,10 +187,17 @@ int main(){
 
 int main(){
     app app;
+    float myT = 0;
+    bool isPlaying = true;
 
     while(app.isRunning()){
-        app.update();
+        app.update(myT);
         app.render();
+
+        if(isPlaying)
+            app.treesMove(isPlaying);
+
+        myT+=0.7;
     }
 
     return 0;

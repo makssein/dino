@@ -1,8 +1,9 @@
-//
-// Created by Максим Сеин on 22.05.2022.
-//
+#pragma once
+#include <random>
 
-#ifndef MAIN_CPP_RANDOM_H
-#define MAIN_CPP_RANDOM_H
-
-#endif //MAIN_CPP_RANDOM_H
+class random {
+public:
+    static int randInt(int min, int max);
+private:
+    static std::random_device rgen;
+};
