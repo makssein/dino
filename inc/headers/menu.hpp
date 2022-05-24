@@ -20,6 +20,10 @@ private:
     assetManager<sf::Font> m_fontManager;
     std::unordered_map<std::string, sf::Sprite> m_sprites;
 
+    sf::Text m_lastScore;
+    sf::Text m_lastScoreTitle;
+
     void initAssets();
     void initSprites();
+    void initTexts();
 };

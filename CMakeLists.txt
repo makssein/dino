@@ -10,7 +10,8 @@ set(SOURCE_FILES main.cpp)
 add_definitions(-DSFML_STATIC)
 add_executable(game main.cpp inc/headers/dino.hpp inc/headers/tree.hpp src/dino.cpp src/tree.cpp inc/headers/myHeaders.h
         inc/headers/assetManager.hpp inc/headers/app.hpp src/app.cpp inc/headers/game.hpp src/game.cpp src/random.cpp inc/headers/random.hpp
-        inc/headers/stateMachine.hpp src/stateMachine.cpp inc/headers/menu.hpp src/menu.cpp)
+        inc/headers/stateMachine.hpp src/stateMachine.cpp inc/headers/menu.hpp src/menu.cpp inc/headers/save.hpp
+        src/save.cpp)
 include_directories(inc/headers/)
 include_directories(/usr/local/include)
 

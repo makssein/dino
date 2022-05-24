@@ -3,6 +3,7 @@
 menu::menu(stateMachine& machine) : State(machine)  {
     initAssets();
     initSprites();
+    initTexts();
 }
 
 menu::~menu(){}
@@ -16,7 +17,8 @@ void menu::update() {
                     m_textureManager.get("startButton").getSize().x * 2,
                     m_textureManager.get("startButton").getSize().y * 2)
                 .contains(getMousePos().x, getMousePos().y)) {
-        i_machine.clearAndPush(new game(i_machine));
+        i_isRunning = false;
+        i_machine.addStateAtBottom(new game(i_machine));
     }
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
@@ -34,6 +36,8 @@ void menu::render(sf::RenderTarget& target) {
     for(const auto& sprites : m_sprites) {
         target.draw(sprites.second);
     }
+    target.draw(m_lastScore);
+    target.draw(m_lastScoreTitle);
 
 }
 
@@ -74,6 +78,25 @@ void menu::initSprites(){
     sf::Texture backgroundTexture = m_textureManager.get("background");
     background.setScale(static_cast<double>(WINDOW_WIDTH)/backgroundTexture.getSize().x, static_cast<double>(WINDOW_HEIGHT)/backgroundTexture.getSize().y);
 }
+
+void menu::initTexts() {
+    float test = saveFile::load("../inc/save.txt");
+
+    //last score
+    m_lastScore.setString(std::to_string(test));
+    m_lastScore.setFont(m_fontManager.get("font"));
+    m_lastScore.setCharacterSize(100);
+    m_lastScore.setOrigin(sf::Vector2f(unsigned(m_lastScore.getGlobalBounds().width) / 2, unsigned(m_lastScore.getGlobalBounds().height + m_lastScore.getCharacterSize()) / 2));
+    m_lastScore.setPosition(WINDOW_WIDTH-500,1100);
+
+
+    m_lastScoreTitle.setString("Last score:");
+    m_lastScoreTitle.setFont(m_fontManager.get("font"));
+    m_lastScoreTitle.setCharacterSize(100);
+    m_lastScoreTitle.setOrigin(sf::Vector2f(unsigned(m_lastScore.getGlobalBounds().width) / 2, unsigned(m_lastScore.getGlobalBounds().height + m_lastScore.getCharacterSize()) / 2));
+    m_lastScoreTitle.setPosition(WINDOW_WIDTH-500,1000);
+}
+
 
 void menu::initAssets() {
     m_textureManager.load("background", "../inc/img/menu.jpg");

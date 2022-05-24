@@ -3,6 +3,7 @@
 #include <assetManager.hpp>
 #include <menu.hpp>
 #include <stateMachine.hpp>
+#include <save.hpp>
 
 #include <dino.hpp>
 #include <tree.hpp>
@@ -24,8 +25,15 @@ private:
     assetManager<sf::Texture> m_textureManager;
     assetManager<sf::Font> m_fontManager;
     std::unordered_map<std::string, sf::Sprite> m_sprites;
+    std::unordered_map<std::string, sf::Sprite> m_spritesGameOver;
+
+
+
     sf::Text m_scoreText;
+    sf::Text m_yourScoreText;
     sf::Clock m_timeClock;
+
+    sf::Sprite m_blur;
 
     bool m_isPlaying = true;
     bool m_jump = false;
@@ -40,6 +48,7 @@ private:
     void initTrees();
     void initSprites();
     void initScore();
+    void initYourScore();
 
     void updateScore();
 

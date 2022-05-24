@@ -63,3 +63,19 @@ const bool State::isRunning() const {
 sf::Vector2f State::getMousePos() const {
     return i_window.mapPixelToCoords(sf::Mouse::getPosition(i_window));
 }
+
+void stateMachine::addStateAtTop(State* state) {
+    m_states.push(state);
+}
+
+void stateMachine::addStateAtBottom(State* state) {
+    if (m_states.empty()) {
+        m_states.push(state);
+    }
+    else {
+        State* temp = m_states.top();
+        m_states.pop();
+        addStateAtBottom(state);
+        m_states.push(temp);
+    }
+}

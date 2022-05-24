@@ -1,13 +1,11 @@
 #include <game.hpp>
-#include <iostream>
-#include <iomanip>
 
 game::game(stateMachine& machine) : State(machine)  {
     initAssets();
     initScore();
     initTrees();
     initSprites();
-
+    initYourScore();
 }
 
 game::~game(){}
@@ -15,6 +13,16 @@ game::~game(){}
 void game::fixedUpdate() {}
 
 void game::update() {
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
+        sf::IntRect(m_spritesGameOver["menuButton"].getPosition().x - m_spritesGameOver["menuButton"].getOrigin().x - 100,
+                    m_spritesGameOver["menuButton"].getPosition().y - m_spritesGameOver["menuButton"].getOrigin().y,
+                    m_textureManager.get("menuButton").getSize().x * 2,
+                    m_textureManager.get("menuButton").getSize().y * 2)
+                .contains(getMousePos().x, getMousePos().y)) {
+        i_isRunning = false;
+        i_machine.addStateAtBottom(new menu(i_machine));
+    }
+
     updateScore();
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
@@ -40,11 +48,22 @@ void game::render(sf::RenderTarget& target) {
     }
 
     target.draw(*m_dino.getDino());
-    target.draw(m_scoreText);
+
 
     for(const auto& tree : m_trees) {
         target.draw(*tree->getTree());
     }
+
+    if(!m_isPlaying) {
+        target.draw(m_blur);
+        for(const auto& sprites : m_spritesGameOver) {
+            target.draw(sprites.second);
+        }
+        target.draw(m_yourScoreText);
+        target.draw(m_scoreText);
+    }
+    else
+        target.draw(m_scoreText);
 
 }
 
@@ -55,6 +74,23 @@ void game::initTrees() {
 }
 
 void game::initSprites(){
+    //blur
+    m_blur.setTexture(m_textureManager.get("blur"));
+
+    sf::Texture m_blurTexture = m_textureManager.get("blur");
+    m_blur.setScale(static_cast<double>(WINDOW_WIDTH)/m_blurTexture.getSize().x, static_cast<double>(WINDOW_HEIGHT)/m_blurTexture.getSize().y);
+
+
+    //menu button
+    auto& menuButton = m_spritesGameOver["menuButton"];
+    menuButton.setTexture(m_textureManager.get("menuButton"));
+    sf::Texture menuButtonTexture = m_textureManager.get("menuButton");
+
+    menuButton.setOrigin(menuButtonTexture.getSize().x/2, menuButtonTexture.getSize().y/2);
+    menuButton.setScale(1.7,1.7);
+    menuButton.setPosition(WINDOW_WIDTH/2,WINDOW_HEIGHT/2);
+
+
     //road
     auto& road = m_sprites["road"];
     road.setTexture(m_textureManager.get("road"));
@@ -75,6 +111,9 @@ void game::initSprites(){
 void game::initAssets() {
     m_textureManager.load("background", "../inc/img/back.jpg");
     m_textureManager.load("road", "../inc/img/road.png");
+    m_textureManager.load("blur", "../inc/img/blur.png");
+    m_textureManager.load("menuButton", "../inc/img/menuButton.png");
+
     m_fontManager.load("font", "../inc/fonts/font.ttf");
 }
 
@@ -105,6 +144,7 @@ void game::collisionCheck() {
                 (sizeY_dino / 2 - sizeY_tree / 2 <= y_dino - y_tree)) {
                 m_dino.gameOver();
                 m_isPlaying = false;
+                saveFile::save("../inc/save.txt", std::to_string(m_score));
                 break;
             } else m_score=m_timeClock.getElapsedTime().asSeconds();
         }
@@ -122,4 +162,16 @@ void game::initScore(){
 
 void game::updateScore() {
     m_scoreText.setString(std::to_string(m_score));
+
+    if(!m_isPlaying)
+        m_scoreText.setPosition(WINDOW_WIDTH/2, 400);
+}
+
+void game::initYourScore() {
+    m_yourScoreText.setString("You scored:");
+    m_yourScoreText.setFillColor(sf::Color(255,255,255,255));
+    m_yourScoreText.setFont(m_fontManager.get("font"));
+    m_yourScoreText.setCharacterSize(200);
+    m_yourScoreText.setPosition(WINDOW_WIDTH/2, 200);
+    m_yourScoreText.setOrigin(sf::Vector2f(unsigned(m_yourScoreText.getGlobalBounds().width) / 2, unsigned(m_yourScoreText.getGlobalBounds().height + m_scoreText.getCharacterSize()) / 2));
 }

@@ -50,6 +50,6 @@ void app::render() {
 void app::initStates() {
     m_machine = new stateMachine(m_window);
 
-    m_machine->clearAndPush(new menu(*m_machine));
+    m_machine->addStateAtTop(new menu(*m_machine));
 }
 

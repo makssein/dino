@@ -19,6 +19,9 @@ public:
 
     sf::RenderWindow& m_window;
 
+    void addStateAtBottom(State* state);
+
+
 private:
     sf::Sprite		   m_frameSprite;
     sf::RenderTexture  m_frame;
