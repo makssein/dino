@@ -2,7 +2,8 @@
 
 #include <myHeaders.h>
 #include <assetManager.hpp>
-#include <game.hpp>
+#include <menu.hpp>
+#include <stateMachine.hpp>
 
 class app{
 public:
@@ -10,22 +11,19 @@ public:
     ~app();
 
     bool isRunning();
-    void update(float &myT);
+    void update();
     void render();
-
-    void treesMove(bool& status){m_game.treesMove(status);}
-    void collisionCheck(bool& status){m_game.collisionCheck(status);};
 
 private:
     sf::RenderWindow m_window;
     sf::Event m_event;
+    stateMachine* m_machine;
 
     bool wantJump = false;
-
-    game m_game;
 
     assetManager<sf::Texture> m_textureManager;
 
     void initWindow();
-    void handleEvents(float &myT);
+    void handleEvents();
+    void initStates();
 };

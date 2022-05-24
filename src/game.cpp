@@ -1,24 +1,51 @@
 #include <game.hpp>
+#include <iostream>
+#include <iomanip>
 
-
-game::game(){
+game::game(stateMachine& machine) : State(machine)  {
     initAssets();
+    initScore();
     initTrees();
     initSprites();
+
 }
 
 game::~game(){}
 
-void game::render(sf::RenderWindow& window) {
-    for(const auto& sprites : m_sprites) {
-        window.draw(sprites.second);
+void game::fixedUpdate() {}
+
+void game::update() {
+    updateScore();
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+        if (!m_jump) {
+            m_jump = true;
+            m_t = 0;
+        }
     }
 
-    window.draw(*m_dino.getDino());
+    if(m_jump && m_isPlaying){
+        m_dino.jump(m_t, m_jump, WINDOW_HEIGHT);
+    }
+
+    treesMove();
+    collisionCheck();
+
+    m_t+=0.7;
+}
+
+void game::render(sf::RenderTarget& target) {
+    for(const auto& sprites : m_sprites) {
+        target.draw(sprites.second);
+    }
+
+    target.draw(*m_dino.getDino());
+    target.draw(m_scoreText);
 
     for(const auto& tree : m_trees) {
-        window.draw(*tree->getTree());
+        target.draw(*tree->getTree());
     }
+
 }
 
 void game::initTrees() {
@@ -48,15 +75,12 @@ void game::initSprites(){
 void game::initAssets() {
     m_textureManager.load("background", "../inc/img/back.jpg");
     m_textureManager.load("road", "../inc/img/road.png");
+    m_fontManager.load("font", "../inc/fonts/font.ttf");
 }
 
-void game::dinoWantJump(float t, bool &type) {
-    m_dino.jump(t, type, WINDOW_HEIGHT);
-}
-
-void game::treesMove(bool &status) {
+void game::treesMove() {
     for(const auto& tree : m_trees) {
-        if(status)
+        if(m_isPlaying)
             tree->move();
 
         if(tree->getX() <= 0) {
@@ -65,7 +89,7 @@ void game::treesMove(bool &status) {
     }
 }
 
-void game::collisionCheck(bool& status) {
+void game::collisionCheck() {
     for(int i = 0; i < m_trees.size(); i++){
         int x_dino  = m_dino.getX();
         int y_dino = m_dino.getY();
@@ -76,19 +100,26 @@ void game::collisionCheck(bool& status) {
         int y_tree = m_trees[i]->getY();
         int sizeX_tree = m_trees[i]->sizeX();
         int sizeY_tree = m_trees[i]->sizeY();
-        if(status) {
+        if(m_isPlaying) {
             if ((sizeX_dino / 2 - 50 + sizeX_tree / 2 - 25 >= abs(x_tree - x_dino)) &&
                 (sizeY_dino / 2 - sizeY_tree / 2 <= y_dino - y_tree)) {
                 m_dino.gameOver();
-                status = false;
-                //score = score;
-                /*if(score > best_score) {
-                    best_score = score;
-                }
-                textGameover.newString("You lost\n"
-                                       "Press R to replay");*/
+                m_isPlaying = false;
                 break;
-            } //else score++;
+            } else m_score=m_timeClock.getElapsedTime().asSeconds();
         }
     }
+}
+
+void game::initScore(){
+    m_scoreText.setString("0.000000");
+    m_scoreText.setFillColor(sf::Color(255,255,255,255));
+    m_scoreText.setFont(m_fontManager.get("font"));
+    m_scoreText.setCharacterSize(200);
+    m_scoreText.setPosition(WINDOW_WIDTH/2, 200);
+    m_scoreText.setOrigin(sf::Vector2f(unsigned(m_scoreText.getGlobalBounds().width) / 2, unsigned(m_scoreText.getGlobalBounds().height + m_scoreText.getCharacterSize()) / 2));
+}
+
+void game::updateScore() {
+    m_scoreText.setString(std::to_string(m_score));
 }

@@ -1,26 +1,36 @@
 #pragma once
 #include <myHeaders.h>
 #include <assetManager.hpp>
+#include <menu.hpp>
+#include <stateMachine.hpp>
 
 #include <dino.hpp>
 #include <tree.hpp>
 
 
-class game{
+class game : public State{
 public:
-    game();
+    game(stateMachine& machine);
     ~game();
 
-    void render(sf::RenderWindow& window);
+    virtual void fixedUpdate();
+    virtual void update();
+    virtual void render(sf::RenderTarget& target);
 
-    void dinoWantJump(float t, bool &type);
-
-    void treesMove(bool& status);
-    void collisionCheck(bool& status);
+    void treesMove();
+    void collisionCheck();
 
 private:
     assetManager<sf::Texture> m_textureManager;
+    assetManager<sf::Font> m_fontManager;
     std::unordered_map<std::string, sf::Sprite> m_sprites;
+    sf::Text m_scoreText;
+    sf::Clock m_timeClock;
+
+    bool m_isPlaying = true;
+    bool m_jump = false;
+    float m_t = 0;
+    float m_score = 0.0f;
 
     dino m_dino;
 
@@ -29,6 +39,8 @@ private:
     void initAssets();
     void initTrees();
     void initSprites();
+    void initScore();
 
+    void updateScore();
 
 };
