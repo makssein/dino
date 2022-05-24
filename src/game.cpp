@@ -64,3 +64,31 @@ void game::treesMove(bool &status) {
         }
     }
 }
+
+void game::collisionCheck(bool& status) {
+    for(int i = 0; i < m_trees.size(); i++){
+        int x_dino  = m_dino.getX();
+        int y_dino = m_dino.getY();
+        int sizeX_dino = m_dino.sizeX();
+        int sizeY_dino = m_dino.sizeY();
+
+        int x_tree = m_trees[i]->getX();
+        int y_tree = m_trees[i]->getY();
+        int sizeX_tree = m_trees[i]->sizeX();
+        int sizeY_tree = m_trees[i]->sizeY();
+        if(status) {
+            if ((sizeX_dino / 2 - 50 + sizeX_tree / 2 - 25 >= abs(x_tree - x_dino)) &&
+                (sizeY_dino / 2 - sizeY_tree / 2 <= y_dino - y_tree)) {
+                m_dino.gameOver();
+                status = false;
+                //score = score;
+                /*if(score > best_score) {
+                    best_score = score;
+                }
+                textGameover.newString("You lost\n"
+                                       "Press R to replay");*/
+                break;
+            } //else score++;
+        }
+    }
+}

@@ -198,6 +198,8 @@ int main(){
             app.treesMove(isPlaying);
 
         myT+=0.7;
+
+        app.collisionCheck(isPlaying);
     }
 
     return 0;

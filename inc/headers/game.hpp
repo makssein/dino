@@ -16,6 +16,7 @@ public:
     void dinoWantJump(float t, bool &type);
 
     void treesMove(bool& status);
+    void collisionCheck(bool& status);
 
 private:
     assetManager<sf::Texture> m_textureManager;

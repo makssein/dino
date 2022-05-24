@@ -14,6 +14,7 @@ public:
     void render();
 
     void treesMove(bool& status){m_game.treesMove(status);}
+    void collisionCheck(bool& status){m_game.collisionCheck(status);};
 
 private:
     sf::RenderWindow m_window;

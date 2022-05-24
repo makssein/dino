@@ -1,5 +1,4 @@
 #include <dino.hpp>
-#include <iostream>
 
 dino::dino(){
     initAssets();
@@ -9,7 +8,7 @@ dino::dino(){
 dino::~dino(){ delete m_dino; };
 
 void dino::initDino() {
-    m_x = WINDOW_WIDTH;
+    m_x = WINDOW_WIDTH/2;
     m_y = WINDOW_HEIGHT;
 
     m_dino = new sf::Sprite;
@@ -20,7 +19,7 @@ void dino::initDino() {
     m_sizeX = texture.getSize().x;
     m_sizeY = texture.getSize().y;
     m_dino->setOrigin(texture.getSize().x/2, texture.getSize().y);
-    m_dino->setPosition(m_x/2,m_y);
+    m_dino->setPosition(m_x,m_y);
 
 }
 
@@ -36,8 +35,7 @@ void dino::jump(float &t, bool& jump, int window_y){
         m_y=m_window_y;
         jump=false;
     }
-    m_dino->setPosition(m_x/2,m_y);
-   // std::cout <<
+    m_dino->setPosition(m_x,m_y);
 
 }
 void dino::gameOver() {

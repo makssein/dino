@@ -9,6 +9,10 @@ public:
     void jump(float &t, bool& jump, int window_y);
     int sizeX(){return m_sizeX;}
     int sizeY(){return m_sizeY;}
+
+    int getY(){return m_y;}
+    int getX(){return m_x;}
+
     void gameOver();
     void initDino();
 private:
