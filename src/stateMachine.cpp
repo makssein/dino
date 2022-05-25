@@ -8,10 +8,6 @@ stateMachine::stateMachine(sf::RenderWindow& window) : m_window(window){
 stateMachine::~stateMachine() {
     clearStates();
 }
-void stateMachine::fixedUpdate() {
-    if (!m_states.empty())
-        m_states.top()->fixedUpdate();
-}
 
 void stateMachine::update() {
     if (!m_states.empty()) {
@@ -38,11 +34,6 @@ void stateMachine::render() {
 
     m_window.draw(m_frameSprite);
 
-}
-
-void stateMachine::clearAndPush(State* state) {
-    clearStates();
-    m_states.push(state);
 }
 
 void stateMachine::clearStates() {

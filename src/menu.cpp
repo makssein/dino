@@ -8,8 +8,6 @@ menu::menu(stateMachine& machine) : State(machine)  {
 
 menu::~menu(){}
 
-void menu::fixedUpdate() {}
-
 void menu::update() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
         sf::IntRect(m_sprites["startButton"].getPosition().x - m_sprites["startButton"].getOrigin().x - 100,

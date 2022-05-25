@@ -11,11 +11,8 @@ public:
 
     void addStateAtTop(State* state);
 
-    void fixedUpdate();
     void update();
     void render();
-
-    void clearAndPush(State* state);
 
     sf::RenderWindow& m_window;
 
@@ -35,7 +32,6 @@ public:
     State(stateMachine& machine);
     virtual ~State();
 
-    virtual void fixedUpdate() = 0;
     virtual void update() = 0;
     virtual void render(sf::RenderTarget& target) = 0;
 

@@ -10,8 +10,6 @@ game::game(stateMachine& machine) : State(machine)  {
 
 game::~game(){}
 
-void game::fixedUpdate() {}
-
 void game::update() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left) &&
         sf::IntRect(m_spritesGameOver["menuButton"].getPosition().x - m_spritesGameOver["menuButton"].getOrigin().x - 100,

@@ -11,7 +11,6 @@ public:
     menu(stateMachine& machine);
     ~menu();
 
-    virtual void fixedUpdate();
     virtual void update();
     virtual void render(sf::RenderTarget& target);
 
