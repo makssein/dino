@@ -31,7 +31,6 @@ void stateMachine::render() {
 
     m_frameSprite.setTexture(m_frame.getTexture());
 
-
     m_window.draw(m_frameSprite);
 
 }

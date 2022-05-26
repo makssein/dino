@@ -20,8 +20,8 @@ public:
 
 
 private:
-    sf::Sprite		   m_frameSprite;
-    sf::RenderTexture  m_frame;
+    sf::Sprite m_frameSprite;
+    sf::RenderTexture m_frame;
     std::stack<State*> m_states;
 
     void clearStates();
